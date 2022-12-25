@@ -96,7 +96,8 @@ double G3T1_1::collect() {
 
     if (client.call(srv)) {
         m_data = srv.response.data;
-        ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
+        // ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
+        ROS_INFO("STARTS_FIRST: [%d]", starts_first);
     } else {
         ROS_INFO("error collecting data");
     }

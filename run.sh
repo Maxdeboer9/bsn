@@ -66,6 +66,12 @@ kill $(cat /var/tmp/g3t1_3.pid && rm /var/tmp/g3t1_3.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_4.pid && rm /var/tmp/g3t1_4.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_5.pid && rm /var/tmp/g3t1_5.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_6.pid && rm /var/tmp/g3t1_6.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_1_reserve.pid && rm /var/tmp/g3t1_1_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_2_reserve.pid && rm /var/tmp/g3t1_2_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_3_reserve.pid && rm /var/tmp/g3t1_3_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_4_reserve.pid && rm /var/tmp/g3t1_4_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_5_reserve.pid && rm /var/tmp/g3t1_5_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_6_reserve.pid && rm /var/tmp/g3t1_6_reserve.pid) & sleep 1s
 kill $(cat /var/tmp/patient.pid && rm /var/tmp/patient.pid) & sleep 1s
 kill $(cat /var/tmp/injector.pid && rm /var/tmp/injector.pid) & sleep 1s
 kill $(cat /var/tmp/strategy_manager.pid && rm /var/tmp/strategy_manager.pid) & sleep 1s

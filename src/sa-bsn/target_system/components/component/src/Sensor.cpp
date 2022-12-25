@@ -17,6 +17,10 @@ int32_t Sensor::run() {
 
 	setUp();
 
+    if (!starts_first) {
+        turnOff();
+    }
+
     if (!shouldStart) {
         Component::shutdownComponent();
     }
@@ -27,7 +31,7 @@ int32_t Sensor::run() {
 
     sendStatus("init");
     ros::spinOnce();
-    
+
     while (ros::ok()) {
         ros::Rate loop_rate(rosComponentDescriptor.getFreq());
         ros::spinOnce();
@@ -38,24 +42,24 @@ int32_t Sensor::run() {
             std::cout << "sensor failed: " << e.what() << std::endl;
             sendStatus("fail");
             cost = 0;
-        } 
+        }
         loop_rate.sleep();
     }
-    
+
     return 0;
 }
 
 void Sensor::body() {
-    
-    if (!isActive() && battery.getCurrentLevel() > 90){
-        turnOn();
-    } else if (isActive() && battery.getCurrentLevel() < 2){
-        turnOff();        
-    }
+
+    // if (!isActive() && battery.getCurrentLevel() > 90){
+    //     turnOn();
+    // } else if (isActive() && battery.getCurrentLevel() < 2){
+    //     turnOff();
+    // }
 
     if(isActive()) {
         sendStatus("running");
-        
+
         data = collect();
 
         /*for data replication, as if replicate_collect values were collected*/
@@ -86,7 +90,7 @@ void Sensor::body() {
  **/
 void Sensor::apply_noise(double &data) {
     double offset = 0;
- 
+
     offset = (noise_factor + ((double)rand() / RAND_MAX) * noise_factor) * data;
     data += (rand()%2==0)?offset:(-1)*offset;
     noise_factor = 0;
@@ -138,7 +142,7 @@ void Sensor::turnOff() {
 
 /*  battery will always recover in 200seconds
 *
-*  b/s = 100% / 200 seconds = 0.2 %/s 
+*  b/s = 100% / 200 seconds = 0.2 %/s
 *      => recovers 5% battery per second
 *  if we divide by the execution frequency
 *  we get the amount of battery we need to

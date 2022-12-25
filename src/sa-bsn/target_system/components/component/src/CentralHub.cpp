@@ -38,9 +38,9 @@ void CentralHub::body() {
     if (!isActive() && battery.getCurrentLevel() > 90){
         turnOn();
     } else if (isActive() && battery.getCurrentLevel() < 2){
-        turnOff();        
+        turnOff();
     }
-    
+
     if(isActive()) {
         if(total_buffer_size > 0){
             apply_noise();
@@ -73,7 +73,7 @@ void CentralHub::reconfigure(const archlib::AdaptationCommand::ConstPtr& msg) {
             //double new_freq = rosComponentDescriptor.getFreq()+stoi(param[1]);
             double new_freq = stod(param[1]);
             rosComponentDescriptor.setFreq(new_freq);
-            /*std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl; 
+            /*std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
             ROS_INFO("Calculated New Frequency: [%s]", std::to_string(new_freq).c_str());
             ROS_INFO("New Frequency: [%s]", std::to_string(rosComponentDescriptor.getFreq()).c_str());
             std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;*/
@@ -97,7 +97,7 @@ void CentralHub::turnOff() {
 
 /*  battery will always recover in 20seconds
     *
-    *  b/s = 100% / 20 seconds = 5 %/s 
+    *  b/s = 100% / 20 seconds = 5 %/s
     *      => recovers 5% battery per second
     *  if we divide by the execution frequency
     *  we get the amount of battery we need to
@@ -105,6 +105,6 @@ void CentralHub::turnOff() {
     *  5 %/s battery recovery rate
     */
 void CentralHub::recharge() {
-    if(battery.getCurrentLevel() <= 100) 
+    if(battery.getCurrentLevel() <= 100)
         battery.generate((100.0/20.0)/rosComponentDescriptor.getFreq());
 }

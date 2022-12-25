@@ -1,7 +1,7 @@
 #ifndef SENSOR_HPP
 #define SENSOR_HPP
 
-#include <stdio.h> 
+#include <stdio.h>
 #include <string>
 #include <vector>
 
@@ -30,7 +30,7 @@ class Sensor : public arch::target_system::Component {
 
         void reconfigure(const archlib::AdaptationCommand::ConstPtr& msg);
         void injectUncertainty(const archlib::Uncertainty::ConstPtr& msg);
-		
+
         virtual double collect() = 0;
         virtual double process(const double &data) = 0;
         virtual void transfer(const double &data) = 0;
@@ -52,6 +52,7 @@ class Sensor : public arch::target_system::Component {
         bool instant_recharge;
         bool shouldStart;
         double cost;
+        bool starts_first;
 };
 
-#endif 
+#endif

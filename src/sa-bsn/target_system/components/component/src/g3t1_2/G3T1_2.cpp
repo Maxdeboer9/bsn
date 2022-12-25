@@ -18,12 +18,13 @@ G3T1_2::~G3T1_2() {}
 
 void G3T1_2::setUp() {
     Component::setUp();
-    
+
     std::array<bsn::range::Range,5> ranges;
     std::string s;
 
     handle.getParam("start", shouldStart);
-    
+    handle.getParam("starts_first", starts_first);
+
     { // Configure markov chain
         std::vector<std::string> lrs,mrs0,hrs0,mrs1,hrs1;
 
@@ -47,11 +48,11 @@ void G3T1_2::setUp() {
 
     { // Configure sensor configuration
         Range low_range = ranges[2];
-        
+
         std::array<Range,2> midRanges;
         midRanges[0] = ranges[1];
         midRanges[1] = ranges[3];
-        
+
         std::array<Range,2> highRanges;
         highRanges[0] = ranges[0];
         highRanges[1] = ranges[4];
@@ -105,8 +106,8 @@ double G3T1_2::collect() {
 
 double G3T1_2::process(const double &m_data) {
     double filtered_data;
-    
-    
+
+
     filter.insert(m_data);
     filtered_data = filter.getValue();
     battery.consume(BATT_UNIT*filter.getRange());
@@ -132,12 +133,12 @@ void G3T1_2::transfer(const double &m_data) {
     msg.batt = battery.getCurrentLevel();
 
     data_pub.publish(msg);
-    
+
     battery.consume(BATT_UNIT);
     cost += BATT_UNIT;
 
     ROS_INFO("risk calculated and transferred: [%.2f%%]", risk);
-    
+
 }
 
 std::string G3T1_2::label(double &risk) {

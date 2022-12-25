@@ -27,7 +27,8 @@ void G3T1_1::setUp() {
     std::array<bsn::range::Range,5> ranges;
 
     handle.getParam("start", shouldStart);
-    
+    handle.getParam("starts_first", starts_first);
+
     { // Configure markov chain
         std::vector<std::string> lrs,mrs0,hrs0,mrs1,hrs1;
 
@@ -51,11 +52,11 @@ void G3T1_1::setUp() {
 
     { // Configure sensor configuration
         Range low_range = ranges[2];
-        
+
         std::array<Range,2> midRanges;
         midRanges[0] = ranges[1];
         midRanges[1] = ranges[3];
-        
+
         std::array<Range,2> highRanges;
         highRanges[0] = ranges[0];
         highRanges[1] = ranges[4];
@@ -76,7 +77,7 @@ void G3T1_1::setUp() {
 
         sensorConfig = SensorConfiguration(0, low_range, midRanges, highRanges, percentages);
     }
-    
+
     { //Check for instant recharge parameter
         handle.getParam("instant_recharge", instant_recharge);
     }
@@ -110,7 +111,7 @@ double G3T1_1::collect() {
 
 double G3T1_1::process(const double &m_data) {
     double filtered_data;
-    
+
     filter.insert(m_data);
     filtered_data = filter.getValue();
     battery.consume(BATT_UNIT*filter.getRange());

@@ -78,7 +78,8 @@ void Sensor::body() {
 		sendStatus("success");
         sendEnergyStatus(cost);
         cost = 0.0;
-    } else {
+    }
+    else {
         recharge();
         throw std::domain_error("out of charge");
     }

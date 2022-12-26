@@ -27,6 +27,8 @@ void G3T1_5::setUp() {
     handle.getParam("start", shouldStart);
     handle.getParam("starts_first", starts_first);
 
+    // Creating the subscriber for the abpd sensors. 
+    // Calls the failure_check function in Sensor.cpp
     abpdSub = handle.subscribe("abpd_failure", 10, &Sensor::failure_check, dynamic_cast<Sensor*>(this));
 
     { // Get ranges

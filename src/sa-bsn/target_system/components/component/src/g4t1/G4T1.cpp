@@ -74,6 +74,8 @@ void G4T1::setUp() {
     }
 
     pub = config.advertise<messages::TargetSystemData>("TargetSystemData", 10);
+
+    // Generating the publishers for each sensor
     thermometer_failure = config.advertise<messages::SensorData>("thermometer_failure", 10);
     ecg_failure = config.advertise<messages::SensorData>("ecg_failure", 10);
     oximeter_failure = config.advertise<messages::SensorData>("oximeter_failure", 10);
@@ -94,8 +96,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     new_msg.batt = batt;
     std::cout << type << "Data:" << msg->data << std::endl;
     // Data becomes true if the sensor failed.
-    if (msg->data == 1000.0) {
-        std::cout << type << "Data:" << msg->data << "FAILED" << std::endl;
+    if (msg->data == -1.0) {
         new_msg.data = 1.0;
     } else {
         new_msg.data = 0.0;
@@ -106,48 +107,43 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     new_msg.type = msg->type;
     if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
     /*update battery status for received sensor info*/
+    /* When the sensor failed the message is sent. The reserve boolean indicates which sensor it is. */
     if (msg->type == "thermometer") {
         trm_batt = batt;
         trm_raw = msg->data;
-        // if (new_msg.data == 1.0) {
-        std::cout << type << "Data:" << msg->data << "THE MESSAGE IS SENT" << std::endl;
-        thermometer_failure.publish(new_msg);
-        // }
+        if (new_msg.data == 1.0) {
+            thermometer_failure.publish(new_msg);
+        }
     } else if (msg->type == "ecg") {
         ecg_batt = batt;
         ecg_raw = msg->data;
-        // if (new_msg.data == 1.0) {
-        std::cout << type << "Data:" << msg->data << "THE MESSAGE IS SENT" << std::endl;
-        ecg_failure.publish(new_msg);
-        // }
+        if (new_msg.data == 1.0) {
+            ecg_failure.publish(new_msg);
+        }
     } else if (msg->type == "oximeter") {
         oxi_batt = batt;
         oxi_raw = msg->data;
-        // if (new_msg.data == 1.0) {
-        std::cout << type << "Data:" << msg->data << "THE MESSAGE IS SENT" << std::endl;
-        oximeter_failure.publish(new_msg);
-        // }
+        if (new_msg.data == 1.0) {
+            oximeter_failure.publish(new_msg);
+        }
     } else if (msg->type == "abps") {
         abps_batt = batt;
         abps_raw = msg->data;
-        // if (new_msg.data == 1.0) {
-        std::cout << type << "Data:" << msg->data << "THE MESSAGE IS SENT" << std::endl;
-        abps_failure.publish(new_msg);
-        // }
+        if (new_msg.data == 1.0) {
+            abps_failure.publish(new_msg);
+        }
     } else if (msg->type == "abpd") {
         abpd_batt = batt;
         abpd_raw = msg->data;
-        // if (new_msg.data == 1.0) {
-        std::cout << type << "Data:" << msg->data << "THE MESSAGE IS SENT" << std::endl;
-        abpd_failure.publish(new_msg);
-        // }
+        if (new_msg.data == 1.0) {
+            abpd_failure.publish(new_msg);
+        }
     } else if (msg->type == "glucosemeter") {
         glc_batt = batt;
         glc_raw = msg->data;
-        // if (new_msg.data == 1.0) {
-        std::cout << type << "Data:" << msg->data << "THE MESSAGE IS SENT" << std::endl;
-        glucosemeter_failure.publish(new_msg);
-        // }
+        if (new_msg.data == 1.0) {
+            glucosemeter_failure.publish(new_msg);
+        }
     }
 
 

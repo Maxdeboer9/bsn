@@ -27,6 +27,8 @@ void G3T1_3::setUp() {
     handle.getParam("start", shouldStart);
     handle.getParam("starts_first", starts_first);
 
+    // Creating the subscriber for the thermometer sensors. 
+    // Calls the failure_check function in Sensor.cpp
     thermometerSub = handle.subscribe("thermometer_failure", 10, &Sensor::failure_check, dynamic_cast<Sensor*>(this));
 
     { // Get ranges

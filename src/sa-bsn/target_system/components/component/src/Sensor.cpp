@@ -16,7 +16,7 @@ Sensor& Sensor::operator=(const Sensor &obj) {
 int32_t Sensor::run() {
 
 	setUp();
-
+    // Turning off the rserve sensor
     if (!starts_first) {
         turnOff();
     }
@@ -72,13 +72,14 @@ void Sensor::body() {
             data = sum/replicate_collect;
         }
         data = process(data);
+        // Implementing a 5% probability that the sensor fails.
         int random_number = rand() % 1000;
         if (random_number < 50) {
             ROS_INFO("SENSOR FAILURE!");
             sensor_failure = true;
         }
         if (sensor_failure) {
-            data = 1000.0;
+            data = -1.0;
         }
         transfer(data);
 		sendStatus("success");
@@ -149,30 +150,31 @@ void Sensor::turnOff() {
     active = false;
 }
 
+// This function is called when a sensor fails. 
 void Sensor::failure_check(const messages::SensorData::ConstPtr& msg) {
-    ROS_INFO("\nMESSAGE RECEIVED!!\n");
-    // Message from the reserve sensor
+    ROS_INFO("\nMESSAGE RECEIVED!![%d]\n", msg->reserve);
+    // Message over the reserve sensor
     if (msg->reserve) {
         // Currently in the original sensor and the reserve failed, so we turn the original back on
-        if (starts_first && msg->data == 1) {
+        if (starts_first && msg->data == 1.0) {
             ROS_INFO("Turned on the original sensor");
             turnOn();
         }
         // Currently in the reserve sensor and it failed, so we turn it off
-        if (!starts_first && msg->data == 1) {
+        if (!starts_first && msg->data == 1.0) {
             ROS_INFO("Turned off the original sensor");
             turnOff();
         }
     }
-    // Message from the original sensor
+    // Message over the original sensor
     if (!msg->reserve) {
         // Currently in the original sensor and the original failed, so we turn the reserve off
-        if (starts_first && msg->data == 1) {
+        if (starts_first && msg->data == 1.0) {
             ROS_INFO("Turned off the reserve sensor");
             turnOff();
         }
         // Currently in the reserve sensor and the original failed, so we turn it on
-        if (!starts_first && msg->data == 1) {
+        if (!starts_first && msg->data == 1.0) {
             ROS_INFO("Turned on the reserve sensor");
             turnOn();
         }

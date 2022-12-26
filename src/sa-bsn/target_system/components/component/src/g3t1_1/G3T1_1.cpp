@@ -28,6 +28,8 @@ void G3T1_1::setUp() {
 
     handle.getParam("start", shouldStart);
     handle.getParam("starts_first", starts_first);
+    // Creating the subscriber for the oximeter sensors. 
+    // Calls the failure_check function in Sensor.cpp
     oximeterSub = handle.subscribe("oximeter_failure", 10, &Sensor::failure_check, dynamic_cast<Sensor*>(this));
 
     { // Configure markov chain

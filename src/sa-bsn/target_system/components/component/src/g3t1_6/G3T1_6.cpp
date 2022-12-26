@@ -28,6 +28,8 @@ void G3T1_6::setUp() {
     handle.getParam("start", shouldStart);
     handle.getParam("starts_first", starts_first);
 
+    // Creating the subscriber for the glucosemeter sensors. 
+    // Calls the failure_check function in Sensor.cpp
     glucosemeterSub = handle.subscribe("glucosemeter_failure", 10, &Sensor::failure_check, dynamic_cast<Sensor*>(this));
 
     { // Get ranges

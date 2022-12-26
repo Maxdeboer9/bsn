@@ -8,7 +8,7 @@ using namespace bsn::processor;
 G4T1::G4T1(int &argc, char **argv, const std::string &name) : lost_packt(false),
     CentralHub(argc, argv, name, true, bsn::resource::Battery("ch_batt", 100, 100, 1) ),
     patient_status(0.0) {}
-	
+
 G4T1::~G4T1() {}
 
 std::vector<std::string> G4T1::getPatientStatus() {
@@ -55,7 +55,7 @@ std::vector<std::string> G4T1::getPatientStatus() {
         }
     }
 
-    std::vector<std::string> v = {trm, ecg, oxi, abps, abpd, glc};  
+    std::vector<std::string> v = {trm, ecg, oxi, abps, abpd, glc};
     return v;
 }
 
@@ -82,9 +82,10 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     int type = getSensorId(msg->type);
     double risk = msg->risk;
     double batt = msg->batt;
-    
+
     battery.consume(BATT_UNIT);
     if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
+    
 
     /*update battery status for received sensor info*/
     if (msg->type == "thermometer") {
@@ -132,7 +133,7 @@ void G4T1::process(){
     for (int i = 0; i < buffer_size.size(); ++i){ // update buffer sizes
         buffer_size[i] = data_buffer[i].size();
     }
-    total_buffer_size = std::accumulate(std::begin(buffer_size), std::end(buffer_size), 0, std::plus<int>()); //update total buffer size 
+    total_buffer_size = std::accumulate(std::begin(buffer_size), std::end(buffer_size), 0, std::plus<int>()); //update total buffer size
 
     // std::vector<std::string> risks;
     getPatientStatus();
@@ -172,9 +173,9 @@ int32_t G4T1::getSensorId(std::string type) {
         return 2;
     else if (type == "abps")
         return 3;
-    else if (type == "abpd")		
+    else if (type == "abpd")
         return 4;
-    else if (type == "glucosemeter")        
+    else if (type == "glucosemeter")
         return 5;
     else {
         std::cout << "UNKNOWN TYPE " + type << std::endl;
@@ -198,7 +199,7 @@ void G4T1::transfer() {
     msg.abps_risk = abps_risk;
     msg.abpd_risk = abpd_risk;
     msg.glc_risk = glc_risk;
-    
+
     msg.trm_data = trm_raw;
     msg.ecg_data = ecg_raw;
     msg.oxi_data = oxi_raw;

@@ -38,6 +38,7 @@ class G3T1_2 : public Sensor {
         double collect();
         double process(const double &data);
         void transfer(const double &data);
+		void failure_check(const messages::SensorData::ConstPtr& sensor_data);
 
   	private:
 		bsn::generator::Markov markov;
@@ -47,6 +48,7 @@ class G3T1_2 : public Sensor {
 
 		ros::NodeHandle handle;
 		ros::Publisher data_pub;
+		ros::Subscriber ecgSub;
 		ros::ServiceClient client;
 
 		double collected_risk;

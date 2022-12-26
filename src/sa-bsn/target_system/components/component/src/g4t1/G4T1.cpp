@@ -74,6 +74,12 @@ void G4T1::setUp() {
     }
 
     pub = config.advertise<messages::TargetSystemData>("TargetSystemData", 10);
+    thermometer_failure = config.advertise<messages::SensorData>("thermometer_failure", 10);
+    ecg_failure = config.advertise<messages::SensorData>("ecg_failure", 10);
+    oximeter_failure = config.advertise<messages::SensorData>("oximeter_failure", 10);
+    abps_failure = config.advertise<messages::SensorData>("abps_failure", 10);
+    abpd_failure = config.advertise<messages::SensorData>("abpd_failure", 10);
+    glucosemeter_failure = config.advertise<messages::SensorData>("glucosemeter_failure", 10);
 }
 
 void G4T1::tearDown() {}
@@ -84,29 +90,47 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     double batt = msg->batt;
 
     battery.consume(BATT_UNIT);
+    messages::SensorData new_msg;
+    new_msg.batt = batt;
+    // Data becomes true if the sensor failed.
+    if (msg->data == -1) {
+        new_msg.data = 1;
+    } else {
+        new_msg.data = 0;
+    }
+    new_msg.data = msg->data;
+    new_msg.reserve = msg->reserve;
+    new_msg.risk = risk;
+    new_msg.type = msg->type;
     if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
-    
-
+    ROS_INFO("Message type: %s", msg->type);
     /*update battery status for received sensor info*/
     if (msg->type == "thermometer") {
         trm_batt = batt;
         trm_raw = msg->data;
+        thermometer_failure.publish(new_msg);
     } else if (msg->type == "ecg") {
         ecg_batt = batt;
         ecg_raw = msg->data;
+        ecg_failure.publish(new_msg);
     } else if (msg->type == "oximeter") {
         oxi_batt = batt;
         oxi_raw = msg->data;
+        oximeter_failure.publish(new_msg);
     } else if (msg->type == "abps") {
         abps_batt = batt;
         abps_raw = msg->data;
+        abps_failure.publish(new_msg);
     } else if (msg->type == "abpd") {
         abpd_batt = batt;
         abpd_raw = msg->data;
+        abpd_failure.publish(new_msg);
     } else if (msg->type == "glucosemeter") {
         glc_batt = batt;
         glc_raw = msg->data;
+        glucosemeter_failure.publish(new_msg);
     }
+
 
     if (buffer_size[type] < max_size) {
         data_buffer[type].push_back(risk);

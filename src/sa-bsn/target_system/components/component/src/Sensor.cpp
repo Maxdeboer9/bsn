@@ -73,7 +73,7 @@ void Sensor::body() {
         }
         data = process(data);
         int random_number = rand() % 1000;
-        if (random_number < 3) {
+        if (random_number < 50) {
             ROS_INFO("SENSOR FAILURE!");
             sensor_failure = true;
         }
@@ -91,6 +91,8 @@ void Sensor::body() {
         throw std::domain_error("out of charge");
     }
 }
+
+
 
 /*
  * error = noise_factor (%)
@@ -146,6 +148,36 @@ void Sensor::turnOn() {
 
 void Sensor::turnOff() {
     active = false;
+}
+
+void Sensor::failure_check(const messages::SensorData::ConstPtr& msg) {
+    ROS_INFO("\nMESSAGE RECEIVED!!\n");
+    // Message from the reserve sensor
+    if (msg->reserve) {
+        // Currently in the original sensor and the reserve failed, so we turn the original back on
+        if (starts_first && msg->data == 1) {
+            ROS_INFO("Turned on the original sensor");
+            turnOn();
+        }
+        // Currently in the reserve sensor and it failed, so we turn it off
+        if (!starts_first && msg->data == 1) {
+            ROS_INFO("Turned off the original sensor");
+            turnOff();
+        }
+    }
+    // Message from the original sensor
+    if (!msg->reserve) {
+        // Currently in the original sensor and the original failed, so we turn the reserve off
+        if (starts_first && msg->data == 1) {
+            ROS_INFO("Turned off the reserve sensor");
+            turnOff();
+        }
+        // Currently in the reserve sensor and the original failed, so we turn it on
+        if (!starts_first && msg->data == 1) {
+            ROS_INFO("Turned on the reserve sensor");
+            turnOn();
+        }
+    }
 }
 
 /*  battery will always recover in 200seconds

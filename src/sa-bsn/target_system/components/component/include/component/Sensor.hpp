@@ -8,6 +8,7 @@
 #include "archlib/target_system/Component.hpp"
 #include "archlib/AdaptationCommand.h"
 #include "archlib/Uncertainty.h"
+#include "messages/SensorData.h"
 
 #include "libbsn/resource/Battery.hpp"
 #include "libbsn/utils/utils.hpp"
@@ -30,7 +31,8 @@ class Sensor : public arch::target_system::Component {
 
         void reconfigure(const archlib::AdaptationCommand::ConstPtr& msg);
         void injectUncertainty(const archlib::Uncertainty::ConstPtr& msg);
-
+        
+        void failure_check(const messages::SensorData::ConstPtr& sensor_data);
         virtual double collect() = 0;
         virtual double process(const double &data) = 0;
         virtual void transfer(const double &data) = 0;

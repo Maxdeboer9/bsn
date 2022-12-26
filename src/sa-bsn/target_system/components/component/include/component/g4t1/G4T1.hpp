@@ -67,6 +67,12 @@ class G4T1 : public CentralHub {
         double glc_raw;
 
         ros::Publisher pub;
+        ros::Publisher thermometer_failure;
+        ros::Publisher ecg_failure;
+        ros::Publisher oximeter_failure;
+        ros::Publisher abps_failure;
+        ros::Publisher abpd_failure;
+        ros::Publisher glucosemeter_failure;
         bool lost_packt;
 };
 

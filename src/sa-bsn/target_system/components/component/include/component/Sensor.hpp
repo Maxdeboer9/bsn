@@ -53,6 +53,7 @@ class Sensor : public arch::target_system::Component {
         bool shouldStart;
         double cost;
         bool starts_first;
+        bool sensor_failure;
 };
 
 #endif

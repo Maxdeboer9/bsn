@@ -61,7 +61,7 @@ void Sensor::body() {
         sendStatus("running");
 
         data = collect();
-
+        ROS_INFO("Before: [%s]", std::to_string(m_data).c_str());
         /*for data replication, as if replicate_collect values were collected*/
         {
             double sum;
@@ -72,7 +72,7 @@ void Sensor::body() {
             }
             data = sum/replicate_collect;
         }
-
+        ROS_INFO("After: [%s]", std::to_string(m_data).c_str());
         data = process(data);
         transfer(data);
 		sendStatus("success");

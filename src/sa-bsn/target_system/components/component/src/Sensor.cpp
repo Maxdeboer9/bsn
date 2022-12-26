@@ -78,9 +78,8 @@ void Sensor::body() {
             sensor_failure = true;
         }
         if (sensor_failure) {
-            data = -1;
+            data = 1000.0;
         }
-        ROS_INFO("After: [%s]", std::to_string(data).c_str());
         transfer(data);
 		sendStatus("success");
         sendEnergyStatus(cost);

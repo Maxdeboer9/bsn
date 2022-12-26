@@ -27,6 +27,8 @@ void G3T1_3::setUp() {
     handle.getParam("start", shouldStart);
     handle.getParam("starts_first", starts_first);
 
+    thermometerSub = handle.subscribe("thermometer_failure", 10, &Sensor::failure_check, dynamic_cast<Sensor*>(this));
+
     { // Get ranges
         std::vector<std::string> lrs,mrs0,hrs0,mrs1,hrs1;
 
@@ -133,6 +135,7 @@ void G3T1_3::transfer(const double &m_data) {
     msg.data = m_data;
     msg.risk = risk;
     msg.batt = battery.getCurrentLevel();
+    msg.reserve = !starts_first;
 
     data_pub.publish(msg);
 

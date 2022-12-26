@@ -25,6 +25,8 @@ void G3T1_2::setUp() {
     handle.getParam("start", shouldStart);
     handle.getParam("starts_first", starts_first);
 
+    ecgSub = handle.subscribe("ecg_failure", 10, &Sensor::failure_check, dynamic_cast<Sensor*>(this));
+
     { // Configure markov chain
         std::vector<std::string> lrs,mrs0,hrs0,mrs1,hrs1;
 
@@ -131,6 +133,7 @@ void G3T1_2::transfer(const double &m_data) {
     msg.data = m_data;
     msg.risk = risk;
     msg.batt = battery.getCurrentLevel();
+    msg.reserve = !starts_first;
 
     data_pub.publish(msg);
 

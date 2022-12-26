@@ -1,6 +1,6 @@
 <launch>
     <!-- Heart Beat Rate Measurement Sensor -->
-    <node name="g3t1_2" pkg="component" type="g3t1_2" output="screen" />
+    <node name="g3t1_2_reserve" pkg="component" type="g3t1_2" output="screen" />
 
     <param name="start" value="true" />
     <param name="starts_first" value="false" />

@@ -1,6 +1,6 @@
 <launch>
     <!-- Glucose Measurement Sensor -->
-    <node name="g3t1_6" pkg="component" type="g3t1_6" output="screen" />
+    <node name="g3t1_6_reserve" pkg="component" type="g3t1_6" output="screen" />
 
     <param name="start" value="true" />
     <param name="starts_first" value="false" />

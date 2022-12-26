@@ -1,6 +1,6 @@
 <launch>
     <!-- Blood Pressure Measurement sensor-->
-    <node name="g3t1_4" pkg="component" type="g3t1_4" output="screen" />
+    <node name="g3t1_4_reserve" pkg="component" type="g3t1_4" output="screen" />
 
     <param name="start" value="true" />
     <param name="starts_first" value="false" />

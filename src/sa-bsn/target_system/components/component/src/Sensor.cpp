@@ -72,6 +72,14 @@ void Sensor::body() {
             data = sum/replicate_collect;
         }
         data = process(data);
+        if (rand() / RAND_MAX < 0.05) {
+            ROS_INFO("SENSOR FAILURE!");
+            sensor_failure = true;
+        }
+        if (sensor_failure) {
+            data = -1;
+        }
+        ROS_INFO("After: [%s]", std::to_string(data).c_str());
         transfer(data);
 		sendStatus("success");
         sendEnergyStatus(cost);

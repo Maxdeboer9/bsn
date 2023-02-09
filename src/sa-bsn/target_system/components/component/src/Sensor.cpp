@@ -78,13 +78,14 @@ void Sensor::body() {
         data = process(data);
         // Implementing a 5% probability that the sensor fails.
         int random_number = rand() % 1000;
-        if (random_number < 5) {
-            ROS_INFO("SENSOR FAILURE!");
+        if (random_number < 50) {
+            ROS_INFO("\nSENSOR FAILURE!\n");
             sensor_failure = true;
         }
         if (sensor_failure) {
             data = -1.0;
         }
+        ROS_INFO("data after possible failure: [%s]", std::to_string(data).c_str());
         transfer(data);
 		sendStatus("success");
         sendEnergyStatus(cost);
@@ -160,9 +161,14 @@ void Sensor::failure_check(const messages::SensorData::ConstPtr& msg) {
     int id = msg->sensor_id;
     if (id == sensor_id) {
         turnOff();
-    } else {
+    }
+    /* else {
         turnOn();
     }
+    */
+   if (id == sensor_id - 1) {
+       turnOn();
+   }
     // Message over the reserve sensor
     /*
     if (msg->reserve) {

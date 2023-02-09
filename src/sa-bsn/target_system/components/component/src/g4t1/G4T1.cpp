@@ -93,15 +93,16 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
 
     battery.consume(BATT_UNIT);
     messages::SensorData new_msg;
+    std::cout << "| Data after message: " << msg->data << std::endl;
     
-    std::cout << type << "Data:" << msg->data << std::endl;
+    std::cout << type << " Data:" << msg->data << std::endl;
     
     new_msg.batt = batt;
     new_msg.data = msg->data;
     new_msg.sensor_id = msg->sensor_id;
     new_msg.risk = risk;
     new_msg.type = msg->type;
-    if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
+    // if (msg->type == "null" || int32_t(risk) == -1)  throw std::domain_error("risk data out of boundaries");
     /*update battery status for received sensor info*/
     /* When the sensor failed the message is sent. */
     if (msg->type == "thermometer") {
@@ -120,6 +121,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
         oxi_batt = batt;
         oxi_raw = msg->data;
         if (msg->data == -1.0) {
+            ROS_INFO("message published to failure channel");
             oximeter_failure.publish(new_msg);
         }
     } else if (msg->type == "abps") {
@@ -186,7 +188,7 @@ void G4T1::process(){
     } else if(patient_status > 80 && patient_status <= 100) {
         patient_risk = "VERY CRITICAL RISK";
     }
-
+    /*
     std::cout << std::endl << "*****************************************" << std::endl;
     std::cout << "PatientStatusInfo#" << std::endl;
     std::cout << "| THERM_RISK: " << trm_risk << std::endl;
@@ -197,6 +199,7 @@ void G4T1::process(){
     std::cout << "| GLC_RISK: " << glc_risk << std::endl;
     std::cout << "| PATIENT_STATE:" << patient_risk << std::endl;
     std::cout << "*****************************************" << std::endl;
+    */
 }
 
 int32_t G4T1::getSensorId(std::string type) {

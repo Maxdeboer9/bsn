@@ -1,9 +1,9 @@
-<launch> 
-    <!-- Blood Pressure Measurement sensor-->    
-    <node name="g3t1_4" pkg="component" type="g3t1_4" output="screen" />
+<launch>
+    <!-- Blood Pressure Measurement sensor-->
+    <node name="g3t1_4_reserve" pkg="component" type="g3t1_4" output="screen" />
 
     <param name="start" value="false" />
-    <param name="starts_first" value="true" />
+    <param name="starts_first" value="false" />
 
     <param name="frequency" value="5" /> <!-- 1 Hz  -->
 

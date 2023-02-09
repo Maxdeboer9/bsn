@@ -1,12 +1,12 @@
-<launch> 
+<launch>
     <!-- Heart Beat Rate Measurement Sensor -->
-    <node name="g3t1_2" pkg="component" type="g3t1_2" output="screen" />
+    <node name="g3t1_2_reserve" pkg="component" type="g3t1_2" output="screen" />
 
     <param name="start" value="false" />
-    <param name="starts_first" value="true" />
+    <param name="starts_first" value="false" />
 
     <param name="frequency" value="2" /> <!-- 2 Hz  -->
-    
+
     <!-- Defines the percentages to consider low, moderate or high risk -->
     <param name="lowrisk" value="0,20" />
     <param name="midrisk" value="21,65" />

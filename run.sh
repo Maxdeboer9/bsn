@@ -38,11 +38,22 @@ gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'rosla
 gnome-terminal --working-directory=${bsn}/configurations/environment   -e 'roslaunch --pid=/var/tmp/patient.pid patient.launch' & sleep 5s
 
 gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_1.pid g3t1_1.launch' & sleep 2s
+gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_1_reserve.pid g3t1_1_reserve.launch' & sleep 2s
+
 gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_2.pid g3t1_2.launch' & sleep 2s
+gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_2_reserve.pid g3t1_2_reserve.launch' & sleep 2s
+
 gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_3.pid g3t1_3.launch' & sleep 2s
+gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_3_reserve.pid g3t1_3_reserve.launch' & sleep 2s
+
 gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_4.pid g3t1_4.launch' & sleep 2s
+gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_4_reserve.pid g3t1_4_reserve.launch' & sleep 2s
+
 gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_5.pid g3t1_5.launch' & sleep 2s
+gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_5_reserve.pid g3t1_5_reserve.launch' & sleep 2s
+
 gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_6.pid g3t1_6.launch' & sleep 2s
+gnome-terminal --working-directory=${bsn}/configurations/target_system -e 'roslaunch --pid=/var/tmp/g3t1_6_reserve.pid g3t1_6_reserve.launch' & sleep 2s
 
 ################# SIMULATION #################
 gnome-terminal --working-directory=${bsn}/configurations/simulation -e 'roslaunch --pid=/var/tmp/injector.pid injector.launch' & sleep ${exec_time}s
@@ -53,12 +64,21 @@ kill $(cat /var/tmp/logger.pid && rm /var/tmp/logger.pid) & sleep 1s
 kill $(cat /var/tmp/probe.pid && rm /var/tmp/probe.pid) & sleep 1s
 kill $(cat /var/tmp/effector.pid && rm /var/tmp/effector.pid) & sleep 1s
 kill $(cat /var/tmp/g4t1.pid && rm /var/tmp/g4t1.pid) & sleep 1s
+
 kill $(cat /var/tmp/g3t1_1.pid && rm /var/tmp/g3t1_1.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_2.pid && rm /var/tmp/g3t1_2.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_3.pid && rm /var/tmp/g3t1_3.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_4.pid && rm /var/tmp/g3t1_4.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_5.pid && rm /var/tmp/g3t1_5.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_6.pid && rm /var/tmp/g3t1_6.pid) & sleep 1s
+
+kill $(cat /var/tmp/g3t1_1_reserve.pid && rm /var/tmp/g3t1_1_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_2_reserve.pid && rm /var/tmp/g3t1_2_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_3_reserve.pid && rm /var/tmp/g3t1_3_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_4_reserve.pid && rm /var/tmp/g3t1_4_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_5_reserve.pid && rm /var/tmp/g3t1_5_reserve.pid) & sleep 1s
+kill $(cat /var/tmp/g3t1_6_reserve.pid && rm /var/tmp/g3t1_6_reserve.pid) & sleep 1s
+
 kill $(cat /var/tmp/patient.pid && rm /var/tmp/patient.pid) & sleep 1s
 kill $(cat /var/tmp/injector.pid && rm /var/tmp/injector.pid) & sleep 1s
 kill $(cat /var/tmp/strategy_manager.pid && rm /var/tmp/strategy_manager.pid) & sleep 1s

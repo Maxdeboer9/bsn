@@ -1,12 +1,24 @@
 # Self-Adaptive Body Sensor Network (SA-BSN)
 
+<<<<<<< HEAD
 ![Travis (.org)](https://img.shields.io/travis/lesunb/bsn) ![GitHub](https://img.shields.io/github/license/lesunb/bsn) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/lesunb/bsn) [![DOI](https://zenodo.org/badge/233956479.svg)](https://zenodo.org/badge/latestdoi/233956479)
+=======
+![Travis (.org)](https://img.shields.io/travis/lesunb/bsn) ![GitHub](https://img.shields.io/github/license/lesunb/bsn) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/rdinizcal/sa-bsn)
+
+### Usage
+Download the virtual machine and turn the bsn folder into this git repository. Then pull all the code. 
+Execute: bash run.sh 90
+>>>>>>> origin/master
 
 This is an implementation of the SA-BSN. So far, the SA-BSN was used for experimentation on solutions for adaptation on the Self-Adaptive Software Systems domain [[1]](https://doi.org/10.1145/3194133.3194147)[[2]](https://doi.org/10.1109/SEAMS.2019.00020)[[3]](https://doi.org/10.1145/3387939.3391595). Moreover, information regarding the prototype behavior and how to develop your own manager is provided in the [website](https://bodysensornetwork.herokuapp.com/), which contains an executable instance of the BSN. 
 
 Check our [demonstration video of the SA-BSN](https://youtu.be/iDEd_tW9JZE).
 
+<<<<<<< HEAD
 Download our [SA-BSN Virtual Machine (Virtual Box) for People in a Hurry](https://drive.google.com/file/d/1RYrZ27LWRvqaxsgNcApXMxwrLK6BBPsV/view?usp=sharing). 
+=======
+Download our [SA-BSN Virtual Machine (Virtual Box) for People in a Hurry](https://drive.google.com/file/d/18APQNBNZM7Pp_bFGyuChOH1uivf4YEV1/view?usp=sharing). 
+>>>>>>> origin/master
 (_~10 minutes!!_)
 
 
@@ -113,7 +125,10 @@ Main Authors
 * [**Samuel Couto**](https://github.com/SCouto97)
 
 Adviser: [**Genaína N. Rodrigues**](https://cic.unb.br/~genaina)
+<<<<<<< HEAD
 
 ## Acknowledgment
 
 This study was financed in part by CAPES-Brasil – Finance Code 001, through CAPES scholarship, by CNpq under grant number 306017/2018-0, by University of Brasilia under Call DPI/DPG 03/2020, by FAPDF Call 03/2018 by the Wallenberg Al, Autonomous Systems and Software Program (WASP) funded by the Knut and Alice Wallenberg Foundation
+=======
+>>>>>>> origin/master

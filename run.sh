@@ -64,7 +64,6 @@ kill $(cat /var/tmp/logger.pid && rm /var/tmp/logger.pid) & sleep 1s
 kill $(cat /var/tmp/probe.pid && rm /var/tmp/probe.pid) & sleep 1s
 kill $(cat /var/tmp/effector.pid && rm /var/tmp/effector.pid) & sleep 1s
 kill $(cat /var/tmp/g4t1.pid && rm /var/tmp/g4t1.pid) & sleep 1s
-
 kill $(cat /var/tmp/g3t1_1.pid && rm /var/tmp/g3t1_1.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_2.pid && rm /var/tmp/g3t1_2.pid) & sleep 1s
 kill $(cat /var/tmp/g3t1_3.pid && rm /var/tmp/g3t1_3.pid) & sleep 1s

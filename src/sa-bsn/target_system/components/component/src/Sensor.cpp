@@ -16,7 +16,6 @@ Sensor& Sensor::operator=(const Sensor &obj) {
 int32_t Sensor::run() {
 
 	setUp();
-
     if (!shouldStart) {
         Component::shutdownComponent();
     }

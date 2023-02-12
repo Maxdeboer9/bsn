@@ -118,7 +118,6 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
         oxi_batt = batt;
         oxi_raw = msg->data;
         if (msg->data == -1.0) {
-            ROS_INFO("message published to failure channel");
             oximeter_failure.publish(new_msg);
         }
     } else if (msg->type == "abps") {
@@ -140,7 +139,21 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
             glucosemeter_failure.publish(new_msg);
         }
     }
-
+    std::list<double>::iterator it;
+    // Replace the negative risk with a moving average of the risks before that
+    if (risk < 0) {
+        std::list<double> lst = data_buffer[type];
+        int sz = lst.size();
+        int n = std::min(sz, 5);
+        std::list<double>::iterator it = lst.end();
+        for (int i = 0; i < n; i++) {
+            it--;
+        }
+        double sum = std::accumulate(it, lst.end(), 0);
+        double moving_average = sum / n;
+        risk = moving_average;
+        std::cout << "| Changed risk of type: " << type << " to: " << risk << std::endl;
+    }
 
     if (buffer_size[type] < max_size) {
         data_buffer[type].push_back(risk);
@@ -185,7 +198,6 @@ void G4T1::process(){
     } else if(patient_status > 80 && patient_status <= 100) {
         patient_risk = "VERY CRITICAL RISK";
     }
-    
     std::cout << std::endl << "*****************************************" << std::endl;
     std::cout << "PatientStatusInfo#" << std::endl;
     std::cout << "| THERM_RISK: " << trm_risk << std::endl;

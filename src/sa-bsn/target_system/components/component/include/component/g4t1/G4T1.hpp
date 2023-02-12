@@ -5,6 +5,7 @@
 #include <chrono>
 #include <memory>
 #include <map>
+#include <list>
 
 #include <ros/package.h>
 #include "ros/ros.h"

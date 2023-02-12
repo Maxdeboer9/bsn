@@ -17,7 +17,7 @@ int32_t Sensor::run() {
 
 	setUp();
     //srand((int) time(0));
-    srand(42);
+    srand(1);
     if (!shouldStart) {
         Component::shutdownComponent();
     }
@@ -94,11 +94,10 @@ void Sensor::body() {
     else {
         recharge();
         int random_number2 = rand() % 1000;
-        if (sensor_failure && random_number2 < 15) {
+        if (sensor_failure && random_number2 < 30) {
             ROS_INFO("\nSENSOR REPAIRED!\n");
             sensor_failure = false;
         }
-        // std::cout << "Sensor not activated!" << std::endl;
         throw std::domain_error("Sensor not activated");
     }
 }

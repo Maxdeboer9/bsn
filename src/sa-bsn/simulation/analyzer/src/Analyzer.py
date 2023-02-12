@@ -83,8 +83,8 @@ class Analyzer:
     def analyze(self, x, y, setpoint):
 
         print('-----------------------------------------------')
-        print(y)
-        self.mean = mean(val for val in y[int(2*len(x)/4):]) # last quarter of the curve, lets hope it sufficses
+        # print(y)
+        self.mean = mean(val for val in y[int(3*len(x)/4):]) # last quarter of the curve, lets hope it sufficses
         print('Converge to: %.2f' % self.mean)
 
         lower_bound = self.mean*(1-self.stability_margin)
@@ -207,7 +207,7 @@ class Analyzer:
             term = "CTX_" + component
             terms_to_remove.append(term)
 
-        formula = Formula("../../knowledge_repository/resource/models/"+self.formula_id+"2.formula", "float", terms_to_remove)
+        formula = Formula("../../knowledge_repository/resource/models/"+self.formula_id+"3.formula", "float", terms_to_remove)
         #concatenate lists into one log list
         log = list()
         if self.formula_id == "reliability":
@@ -225,7 +225,7 @@ class Analyzer:
         # read log 
         for reg in log:
             reg_count += 1
-            print("Analyzing reg " + str(reg_count) + "...")
+            # print("Analyzing reg " + str(reg_count) + "...")
             # compute time series
             instant = int(reg[2]) - t0
 
@@ -596,9 +596,12 @@ class Formula:
         expr = expr.replace(")"," ")
         expr = expr.replace("and"," ")
         expr = expr.replace("or"," ")
+        expr = expr.replace("["," ")
+        expr = expr.replace("]"," ")
+        expr = expr.replace(","," ")
+        expr = expr.replace("max"," ")
         expr = re.split(' ',expr)
         arguments = list(filter(None, expr))
-
         arg_val = {}
         for argument in arguments :
             if self.type == "bool": arg_val[argument] = False
@@ -627,8 +630,9 @@ class Formula:
         for arg in mapping.keys():
             if arg.find("W_") != -1:
                 self.mapping[arg] = 0
-
-        return eval(self.expression, mapping)
+        temp = eval(self.expression, mapping)
+        return temp
+        #return eval(self.expression, mapping)
 
 class AdaptationCommand:
 

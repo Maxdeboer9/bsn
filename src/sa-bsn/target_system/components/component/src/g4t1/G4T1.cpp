@@ -140,7 +140,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
         }
     }
     std::list<double>::iterator it;
-    // Replace the negative risk with a moving average of the risks before that
+    // Replace the negative risk with a moving average of the 5 risk values before that
     if (risk < 0) {
         std::list<double> lst = data_buffer[type];
         int sz = lst.size();

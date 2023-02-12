@@ -17,7 +17,7 @@ int32_t Sensor::run() {
 
 	setUp();
     //srand((int) time(0));
-    srand(1);
+    srand(5);
     if (!shouldStart) {
         Component::shutdownComponent();
     }
@@ -77,7 +77,7 @@ void Sensor::body() {
             data = sum/replicate_collect;
         }
         data = process(data);
-        // Implementing a 1.5% probability that the sensor fails.
+        // Implementing a 2.5% probability that the sensor fails.
         int random_number = rand() % 1000;
         if (random_number < 25) {
             ROS_INFO("\nSENSOR FAILURE!\n");
@@ -94,6 +94,7 @@ void Sensor::body() {
     else {
         recharge();
         int random_number2 = rand() % 1000;
+        // A probability of 3% that sensor repairs itself
         if (sensor_failure && random_number2 < 30) {
             ROS_INFO("\nSENSOR REPAIRED!\n");
             sensor_failure = false;
@@ -167,12 +168,6 @@ void Sensor::failure_check(const messages::SensorData::ConstPtr& msg) {
     if (id == sensor_id) {
         turnOff();
     }
-    /*
-    if (id == sensor_id - 1) {
-        ROS_INFO("Sensor %d activated!\n", sensor_id);
-        turnOn();
-    }
-    */
     if (id != sensor_id) {
         ROS_INFO("Sensor %d activated!\n", sensor_id);
         turnOn();

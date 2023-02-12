@@ -83,8 +83,8 @@ class Analyzer:
     def analyze(self, x, y, setpoint):
 
         print('-----------------------------------------------')
-        # print(y)
-        self.mean = mean(val for val in y[int(3*len(x)/4):]) # last quarter of the curve, lets hope it sufficses
+        #print(y)
+        self.mean = mean(val for val in y[int(3*len(x)/5):]) # last quarter of the curve, lets hope it sufficses
         print('Converge to: %.2f' % self.mean)
 
         lower_bound = self.mean*(1-self.stability_margin)
@@ -572,7 +572,6 @@ class Analyzer:
         #    horizontalalignment='right', verticalalignment='top',
         #    )
         #plt.grid()
-
         plt.show()
 
 class Formula:

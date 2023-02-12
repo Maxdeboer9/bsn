@@ -2,8 +2,8 @@
     <!-- Heart Beat Rate Measurement Sensor -->
     <node name="g3t1_2_reserve" pkg="component" type="g3t1_2" output="screen" />
 
-    <param name="start" value="false" />
-    <param name="starts_first" value="false" />
+    <param name="start" value="true" />
+    <param name="sensor_id" value="2" type="int" />
 
     <param name="frequency" value="2" /> <!-- 2 Hz  -->
 

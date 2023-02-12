@@ -2,8 +2,8 @@
     <!-- Temperature Measurement Sensor -->
     <node name="g3t1_3" pkg="component" type="g3t1_3" output="screen" />
 
-    <param name="start" value="false" />
-    <param name="starts_first" value="true" />
+    <param name="start" value="true" />
+    <param name="sensor_id" value="1" type="int" />
 
     <param name="frequency" value="0.6" /> <!-- 1 Hz  -->
 

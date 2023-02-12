@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <ctime>
 
 #include "archlib/target_system/Component.hpp"
 #include "archlib/AdaptationCommand.h"

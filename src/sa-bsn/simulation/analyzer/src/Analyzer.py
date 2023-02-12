@@ -83,7 +83,8 @@ class Analyzer:
     def analyze(self, x, y, setpoint):
 
         print('-----------------------------------------------')
-        self.mean = mean(val for val in y[int(3*len(x)/4):]) # last quarter of the curve, lets hope it sufficses
+        print(y)
+        self.mean = mean(val for val in y[int(2*len(x)/4):]) # last quarter of the curve, lets hope it sufficses
         print('Converge to: %.2f' % self.mean)
 
         lower_bound = self.mean*(1-self.stability_margin)
@@ -206,7 +207,7 @@ class Analyzer:
             term = "CTX_" + component
             terms_to_remove.append(term)
 
-        formula = Formula("../../knowledge_repository/resource/models/"+self.formula_id+".formula", "float", terms_to_remove)
+        formula = Formula("../../knowledge_repository/resource/models/"+self.formula_id+"2.formula", "float", terms_to_remove)
         #concatenate lists into one log list
         log = list()
         if self.formula_id == "reliability":
@@ -310,7 +311,6 @@ class Analyzer:
                 #global_status_timeseries[instant] = b_formula.eval()
                 if self.formula_id == "reliability":
                     global_reli_timeseries[instant] = formula.eval()       
-
         input_timeseries = dict()
         noise_factor = dict()
 
@@ -338,6 +338,7 @@ class Analyzer:
         ################################################################## 
 
         x_triggered = inf
+        # print("Adapatation: ", adaptation_triggered)
         for tag in adaptation_triggered: x_triggered = adaptation_triggered[tag] if adaptation_triggered[tag] < x_triggered else x_triggered
 
         if self.formula_id == "reliability":
@@ -349,7 +350,6 @@ class Analyzer:
 
         ## discretizing the curve
         #[x,y] = self.discretize(x,y,1) #precision in ms
-
         setpoint = self.setpoint
 
         xa = []
@@ -372,7 +372,10 @@ class Analyzer:
         scale = 10e-10
         ticks = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x*scale))
 
-        default_colors = ["#17becf", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#ff7f0e"]
+        #default_colors = ["#17becf", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#ff7f0e"]
+        #default_colors = ["#17becf", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#ff7f0e", "#148F77", "#909497", "#AED6F1", "#78281F", "#884EA0", "F7DC6F"]
+        #default_colors = ["#FFB300", "#803E75", "#FF6800", "#A6BDD7", "#C10020", "#CEA262", "#817066", "#007D34", "#F6768E", "#00538A", "#FF7A5C", "#53377A", "#FF8E00", "#B32851", "#F4C800"]
+        default_colors = ["#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ff00ff", "#ff8080", "#808080", "#800000", "#ff8000", "#007d34", "#a6bdd7", "#232c16", "#803e75", "#593315"]
         colors = dict()
         i = 0
         for tag in tasks:

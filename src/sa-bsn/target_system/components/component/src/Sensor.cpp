@@ -16,6 +16,8 @@ Sensor& Sensor::operator=(const Sensor &obj) {
 int32_t Sensor::run() {
 
 	setUp();
+    //srand((int) time(0));
+    srand(42);
     if (!shouldStart) {
         Component::shutdownComponent();
     }
@@ -75,16 +77,15 @@ void Sensor::body() {
             data = sum/replicate_collect;
         }
         data = process(data);
-        // Implementing a 5% probability that the sensor fails.
+        // Implementing a 1.5% probability that the sensor fails.
         int random_number = rand() % 1000;
-        if (random_number < 50) {
+        if (random_number < 25) {
             ROS_INFO("\nSENSOR FAILURE!\n");
             sensor_failure = true;
         }
         if (sensor_failure) {
             data = -1.0;
         }
-        ROS_INFO("data after possible failure: [%s]", std::to_string(data).c_str());
         transfer(data);
 		sendStatus("success");
         sendEnergyStatus(cost);
@@ -92,7 +93,13 @@ void Sensor::body() {
     }
     else {
         recharge();
-        throw std::domain_error("out of charge");
+        int random_number2 = rand() % 1000;
+        if (sensor_failure && random_number2 < 15) {
+            ROS_INFO("\nSENSOR REPAIRED!\n");
+            sensor_failure = false;
+        }
+        // std::cout << "Sensor not activated!" << std::endl;
+        throw std::domain_error("Sensor not activated");
     }
 }
 
@@ -161,41 +168,17 @@ void Sensor::failure_check(const messages::SensorData::ConstPtr& msg) {
     if (id == sensor_id) {
         turnOff();
     }
-    /* else {
+    /*
+    if (id == sensor_id - 1) {
+        ROS_INFO("Sensor %d activated!\n", sensor_id);
         turnOn();
     }
     */
-   if (id == sensor_id - 1) {
-       turnOn();
-   }
-    // Message over the reserve sensor
-    /*
-    if (msg->reserve) {
-        // Currently in the original sensor and the reserve failed, so we turn the original back on
-        if (starts_first && msg->data == 1.0) {
-            ROS_INFO("Turned on the original sensor");
-            turnOn();
-        }
-        // Currently in the reserve sensor and it failed, so we turn it off
-        if (!starts_first && msg->data == 1.0) {
-            ROS_INFO("Turned off the original sensor");
-            turnOff();
-        }
+    if (id != sensor_id) {
+        ROS_INFO("Sensor %d activated!\n", sensor_id);
+        turnOn();
     }
-    // Message over the original sensor
-    if (!msg->reserve) {
-        // Currently in the original sensor and the original failed, so we turn the reserve off
-        if (starts_first && msg->data == 1.0) {
-            ROS_INFO("Turned off the reserve sensor");
-            turnOff();
-        }
-        // Currently in the reserve sensor and the original failed, so we turn it on
-        if (!starts_first && msg->data == 1.0) {
-            ROS_INFO("Turned on the reserve sensor");
-            turnOn();
-        }
-    }
-    */
+    
 }
 
 /*  battery will always recover in 200seconds
